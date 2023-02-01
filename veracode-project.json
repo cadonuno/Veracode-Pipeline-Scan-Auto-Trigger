@@ -1,0 +1,9 @@
+﻿{
+  "projectVersion": "1.0.0",
+  "uploadAndScan": {
+    "appName": "An app from API",
+    "fileFolderPath": [
+      ".veracode/build"
+    ]
+  }
+}
