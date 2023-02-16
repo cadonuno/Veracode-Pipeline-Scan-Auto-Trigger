@@ -32,7 +32,7 @@ namespace Veracode_Pipeline_Scan_Auto_Trigger
             Content = new Results_windowControl(this);
         }
 
-        public void DisplayResultsAndShowWindow(PipelineScanResults scanResults)
+        public void AddResultsAndShowWindow(PipelineScanResults scanResults)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             ((Results_windowControl)this.Content).ReloadResults(scanResults);

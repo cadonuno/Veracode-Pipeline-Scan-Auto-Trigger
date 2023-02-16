@@ -17,11 +17,11 @@ namespace Veracode_Pipeline_Scan_Auto_Trigger
         private bool _scanPassed = false;
         private bool _hasFinished = false;
         private bool _didStartThisOne = false;
+        private bool _hasThrownError;
         private ProgressBarHandler _progressBarHandler;
         private OsCommandRunner _osCommandRunner;
         private AsyncPackage _asyncPackage;
         private ProjectOptions _projectOptions;
-        private bool _hasThrownError;
 
         public bool ScanPassed()
         {

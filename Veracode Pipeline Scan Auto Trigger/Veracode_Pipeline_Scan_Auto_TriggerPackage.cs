@@ -1,12 +1,7 @@
 ﻿using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Threading;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static Microsoft.VisualStudio.RpcContracts.Solution.ProjectLoadResult;
 using Task = System.Threading.Tasks.Task;
 
 namespace Veracode_Pipeline_Scan_Auto_Trigger
@@ -29,14 +24,13 @@ namespace Veracode_Pipeline_Scan_Auto_Trigger
     /// </para>
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [Guid(Veracode_Pipeline_Scan_Auto_TriggerPackage.PackageGuidString)]
+    [Guid(PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(GlobalOptions),
     "Pipeline Scan Auto Trigger", "Global Options", 0, 0, true)]
     [ProvideOptionPage(typeof(ProjectOptions),
     "Pipeline Scan Auto Trigger", "Project Options", 0, 0, true)]
     [ProvideToolWindow(typeof(Results_window))]
-
     public sealed class Veracode_Pipeline_Scan_Auto_TriggerPackage : AsyncPackage
     {
         /// <summary>
@@ -45,6 +39,7 @@ namespace Veracode_Pipeline_Scan_Auto_Trigger
         public const string PackageGuidString = "7bb8ced6-257a-4cef-9a8c-46a845903b0e";
 
         private static Veracode_Pipeline_Scan_Auto_TriggerPackage _instance;
+
         public static Veracode_Pipeline_Scan_Auto_TriggerPackage Instance 
         { 
             get 
@@ -63,7 +58,7 @@ namespace Veracode_Pipeline_Scan_Auto_Trigger
             Results_windowCommand.InitializeToolWindowIfNecessary(this);
             UIThreadHelper.RunOnUIThread(() =>
                     Results_windowCommand.Instance.GetResultsWindow()
-                        .IfPresent(resultsWindow => resultsWindow.DisplayResultsAndShowWindow(pipelineScanResults)));
+                        .IfPresent(resultsWindow => resultsWindow.AddResultsAndShowWindow(pipelineScanResults)));
         }
 
         #region Package Members

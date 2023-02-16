@@ -1,10 +1,5 @@
 ﻿using Microsoft.VisualStudio.Shell;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Veracode_Pipeline_Scan_Auto_Trigger
 {
@@ -14,12 +9,12 @@ namespace Veracode_Pipeline_Scan_Auto_Trigger
         [Category("Project-specific scan configuration")]
         [DisplayName("File to scan")]
         [Description("The file to be scanned. For multiple files, zip them up in the build command")]
-        public string FileToScan { get; set; } = "./target/*";
+        public string FileToScan { get; set; } = "<Project Name>.zip";
 
         [Category("Project-specific scan configuration")]
         [DisplayName("Build command")]
         [Description("If present, will be called before the scan to produce a build file")]
-        public string BuildCommand { get; set; } = "dotnet publish -c Debug -o <OutputFolder>";
+        public string BuildCommand { get; set; } = "dotnet publish -c Debug -p:PublishProfile=FolderProfile -p:UseAppHost=false -p:SatelliteResourceLanguages='en' -o <Project Name> && rmdir /s /q <Directories to Exclude> && tar -a -c -f <Project Name>.zip <Project Name>";
 
         [Category("Project-specific scan configuration")]
         [DisplayName("Baseline file")]

@@ -1,10 +1,7 @@
 ﻿using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 namespace Veracode_Pipeline_Scan_Auto_Trigger
@@ -18,7 +15,7 @@ namespace Veracode_Pipeline_Scan_Auto_Trigger
         /// Command ID.
         /// </summary>
         public const int CommandId = 0x0100;
-
+        
         /// <summary>
         /// Command menu group (command set GUID).
         /// </summary>
@@ -53,6 +50,8 @@ namespace Veracode_Pipeline_Scan_Auto_Trigger
             get;
             private set;
         }
+
+        public IEnumerable<char> PotentialCommitCharacters => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the service provider from the owner package.
@@ -89,13 +88,27 @@ namespace Veracode_Pipeline_Scan_Auto_Trigger
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            PipelineScanRunner scanRunner = new PipelineScanRunner();
-            scanRunner.RunScanIfNecessary((ProjectOptions)
-                Veracode_Pipeline_Scan_Auto_TriggerPackage
-                .Instance.GetDialogPage(typeof(ProjectOptions)),
-                (GlobalOptions)
-                Veracode_Pipeline_Scan_Auto_TriggerPackage
-                .Instance.GetDialogPage(typeof(GlobalOptions)), package);
+            RunPipelineScan();
+        }
+/*
+        public bool ShouldCommitCompletion(IAsyncCompletionSession session, SnapshotPoint location, char typedChar, CancellationToken token)
+        {
+            return true;
+        }
+
+        public CommitResult TryCommit(IAsyncCompletionSession session, ITextBuffer buffer, CompletionItem item, char typedChar, CancellationToken token)
+        {
+            return CommitResult.Unhandled;
+        }*/
+
+        private void RunPipelineScan()
+        {
+            new PipelineScanRunner().RunScanIfNecessary((ProjectOptions)
+                            Veracode_Pipeline_Scan_Auto_TriggerPackage
+                            .Instance.GetDialogPage(typeof(ProjectOptions)),
+                            (GlobalOptions)
+                            Veracode_Pipeline_Scan_Auto_TriggerPackage
+                            .Instance.GetDialogPage(typeof(GlobalOptions)), package);
         }
     }
 }
